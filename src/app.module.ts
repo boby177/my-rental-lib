@@ -6,6 +6,7 @@ import { dataSourceOptions } from '@config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
+import { MemberModule } from './api/member/member.module';
 
 @Module({
   imports: [
@@ -16,8 +17,7 @@ import { classes } from '@automapper/classes';
     AutomapperModule.forRoot({
       strategyInitializer: classes(),
     }),
+    MemberModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

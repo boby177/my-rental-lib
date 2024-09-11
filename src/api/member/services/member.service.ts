@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { PaginateQuery } from 'nestjs-paginate';
 import { MemberRepository } from '../repositories/member.repository';
 import { MemberCreateDTO } from './dtos/member-create.dto';

@@ -63,7 +63,7 @@ export class MemberController {
     return await this.member.findByCode(code);
   }
 
-  @Post('new')
+  @Post('add')
   @ApiOperation({ summary: 'Create new data member' })
   @ApiBody({ type: MemberCreateDTO })
   @ApiResponse({
@@ -91,7 +91,7 @@ export class MemberController {
   }
 
   @Delete('delete/:id')
-  @ApiOperation({ summary: 'Delete data extracurricular' })
+  @ApiOperation({ summary: 'Delete data member' })
   @ApiResponse({
     status: 200,
     description: 'Data member has been deleted',

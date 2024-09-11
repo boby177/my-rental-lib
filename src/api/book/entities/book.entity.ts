@@ -2,19 +2,23 @@ import { AutoMap } from '@automapper/classes';
 import { BaseEntity } from 'src/common/base';
 import { Column, Entity } from 'typeorm';
 
-@Entity('member')
-export class Member extends BaseEntity {
+@Entity('book')
+export class Book extends BaseEntity {
   @AutoMap()
   @Column({ type: 'varchar', unique: true })
   code: string;
 
   @AutoMap()
   @Column({ type: 'varchar' })
-  name: string;
+  title: string;
 
   @AutoMap()
-  @Column({ type: 'boolean', default: false })
-  isPenalized: boolean;
+  @Column({ type: 'varchar' })
+  author: string;
+
+  @AutoMap()
+  @Column({ type: 'int', default: 0 })
+  stock: number;
 
   // TODO: Relation with borrowing table
 }

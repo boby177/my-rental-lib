@@ -45,7 +45,7 @@ export class MemberController {
   @ApiOperation({ summary: 'Get member by id' })
   @ApiResponse({
     status: 200,
-    description: 'Successfully get all data members',
+    description: 'Successfully get data member',
     type: MemberReadDTO,
   })
   async findMemberById(@Param('id') id: string) {
@@ -56,7 +56,7 @@ export class MemberController {
   @ApiOperation({ summary: 'Get member by code' })
   @ApiResponse({
     status: 200,
-    description: 'Successfully get all data members',
+    description: 'Successfully get data member',
     type: MemberReadDTO,
   })
   async findMemberByCode(@Param('code') code: string) {

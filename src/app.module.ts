@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { MemberModule } from './api/member/member.module';
+import { BookModule } from './api/book/book.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MemberModule } from './api/member/member.module';
       strategyInitializer: classes(),
     }),
     MemberModule,
+    BookModule,
   ],
 })
 export class AppModule {}

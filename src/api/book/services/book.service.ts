@@ -40,6 +40,62 @@ export class BookService {
     };
   }
 
+  async getBorrowedBooks() {
+    const book = await this.bookRepo.getAllBook();
+    let borrowedBook = [];
+
+    for (const data of book) {
+      let item = {};
+      if (data.borrowedBooks.length === 0) {
+        item = [];
+      } else {
+        item = data;
+      }
+
+      borrowedBook.push(item);
+    }
+
+    const nonEmptyArrays = borrowedBook.filter(
+      (item) => !(Array.isArray(item) && item.length === 0),
+    );
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Successfully get data borrowed books',
+      data: nonEmptyArrays,
+    };
+  }
+
+  async getNotBorrowedBooks() {
+    const book = await this.bookRepo.getAllBook();
+    let borrowedBook = [];
+
+    // book.filter((item) => Array.isArray(item) && item.length === 0);
+
+    // borrowedBook.push(book);
+
+    for (const data of book) {
+      let item = {};
+      if (data.borrowedBooks.length === 0) {
+        item = [];
+      } else {
+        item = data;
+      }
+
+      borrowedBook.push(item);
+    }
+
+    const nonEmptyArrays = borrowedBook.filter(
+      (item) => !(Array.isArray(item) && item.length === 0),
+    );
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Successfully get data books',
+      data: nonEmptyArrays,
+    };
+  }
+
   async addNewBook(bookCreateDTO: BookCreateDTO) {
     const { code, title, author, stock } = bookCreateDTO;
 

@@ -23,7 +23,6 @@ export class MemberRepository extends Repository<Member> {
         sortableColumns: ['name', 'code', 'isPenalized'],
         searchableColumns: ['name', 'code', 'isPenalized'],
         maxLimit: 9999999,
-        relations: ['borrowedBooks'],
       });
 
       return paginated;

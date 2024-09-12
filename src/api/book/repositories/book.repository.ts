@@ -21,7 +21,6 @@ export class BookRepository extends Repository<Book> {
         sortableColumns: ['code', 'author', 'title', 'stock'],
         searchableColumns: ['code', 'author', 'title', 'stock'],
         maxLimit: 9999999,
-        relations: ['borrowedBooks'],
       });
 
       return paginated;
@@ -86,6 +85,24 @@ export class BookRepository extends Repository<Book> {
     } catch (error) {
       console.error(error);
       throw new UnprocessableEntityException(error.message);
+    }
+  }
+
+  async getAllBook() {
+    try {
+      const book = await this.find({
+        relations: ['borrowedBooks'],
+        select: ['id', 'code', 'author', 'title', 'stock', 'borrowedBooks'],
+      });
+
+      if (!book) {
+        throw new NotFoundException('Data book not found');
+      }
+
+      return book;
+    } catch (error) {
+      console.error(error);
+      throw new NotFoundException(error.message);
     }
   }
 }

@@ -49,6 +49,7 @@ export class MemberService {
     const newMember = this.memberRepo.create({
       code,
       name,
+      isPenalized: false,
     });
 
     await this.memberRepo.save(newMember);

@@ -23,7 +23,7 @@ export class MemberRepository extends Repository<Member> {
         sortableColumns: ['name', 'code', 'isPenalized'],
         searchableColumns: ['name', 'code', 'isPenalized'],
         maxLimit: 9999999,
-        select: ['id', 'code', 'name', 'isPenalized'],
+        relations: ['borrowedBooks'],
       });
 
       return paginated;
@@ -37,7 +37,15 @@ export class MemberRepository extends Repository<Member> {
     try {
       const member = await this.findOne({
         where: { id },
-        select: ['id', 'code', 'name', 'isPenalized', 'createdAt'],
+        relations: ['borrowedBooks'],
+        select: [
+          'id',
+          'code',
+          'name',
+          'isPenalized',
+          'createdAt',
+          'borrowedBooks',
+        ],
       });
 
       if (!member) {
@@ -55,7 +63,15 @@ export class MemberRepository extends Repository<Member> {
     try {
       const member = await this.findOne({
         where: { code },
-        select: ['id', 'code', 'name', 'isPenalized', 'createdAt'],
+        relations: ['borrowedBooks'],
+        select: [
+          'id',
+          'code',
+          'name',
+          'isPenalized',
+          'createdAt',
+          'borrowedBooks',
+        ],
       });
 
       if (!member) {

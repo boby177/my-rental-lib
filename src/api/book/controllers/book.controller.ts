@@ -40,13 +40,13 @@ export class BookController {
   }
 
   @Get('not-borrowed')
-  @ApiOperation({ summary: 'Get books that are not borrowed' })
+  @ApiOperation({ summary: 'Get books are not borrowed' })
   async getNotBorrowedBooks() {
     return await this.book.getNotBorrowedBooks();
   }
 
   @Get('borrowed')
-  @ApiOperation({ summary: 'Get books that are borrowed' })
+  @ApiOperation({ summary: 'Get books are borrowed' })
   async getBorrowedBooks() {
     return await this.book.getBorrowedBooks();
   }

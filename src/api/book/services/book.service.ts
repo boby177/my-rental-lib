@@ -44,25 +44,20 @@ export class BookService {
     const book = await this.bookRepo.getAllBook();
     let borrowedBook = [];
 
-    for (const data of book) {
-      let item = {};
-      if (data.borrowedBooks.length === 0) {
-        item = [];
-      } else {
-        item = data;
+    // Get data with field borrowed book is not empty
+    for (const item of book) {
+      let data = {};
+
+      if (item.borrowedBooks.length !== 0) {
+        data = item;
+        borrowedBook.push(data);
       }
-
-      borrowedBook.push(item);
     }
-
-    const nonEmptyArrays = borrowedBook.filter(
-      (item) => !(Array.isArray(item) && item.length === 0),
-    );
 
     return {
       status: HttpStatus.OK,
       message: 'Successfully get data borrowed books',
-      data: nonEmptyArrays,
+      data: borrowedBook,
     };
   }
 
@@ -70,29 +65,20 @@ export class BookService {
     const book = await this.bookRepo.getAllBook();
     let borrowedBook = [];
 
-    // book.filter((item) => Array.isArray(item) && item.length === 0);
+    // Get data with field borrowed book is empty
+    for (const item of book) {
+      let data = {};
 
-    // borrowedBook.push(book);
-
-    for (const data of book) {
-      let item = {};
-      if (data.borrowedBooks.length === 0) {
-        item = [];
-      } else {
-        item = data;
+      if (item.borrowedBooks.length === 0) {
+        data = item;
+        borrowedBook.push(data);
       }
-
-      borrowedBook.push(item);
     }
-
-    const nonEmptyArrays = borrowedBook.filter(
-      (item) => !(Array.isArray(item) && item.length === 0),
-    );
 
     return {
       status: HttpStatus.OK,
       message: 'Successfully get data books',
-      data: nonEmptyArrays,
+      data: borrowedBook,
     };
   }
 

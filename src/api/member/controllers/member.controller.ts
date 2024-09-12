@@ -6,12 +6,13 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -61,6 +62,18 @@ export class MemberController {
   })
   async findMemberByCode(@Param('code') code: string) {
     return await this.member.findByCode(code);
+  }
+
+  @Get('borrowed-book')
+  @ApiOperation({ summary: 'Get member borrowed books' })
+  @ApiQuery({
+    name: 'code',
+    type: 'string',
+    required: false,
+    description: 'Member Code',
+  })
+  async findBorrowedBooksMember(@Query('code') code: string) {
+    return await this.member.findBorrowedBooksMember(code);
   }
 
   @Post('add')

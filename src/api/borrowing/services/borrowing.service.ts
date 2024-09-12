@@ -134,26 +134,7 @@ export class BorrowingService {
       throw new UnprocessableEntityException(
         `This member is not borrowing book ${book.title}`,
       );
-    } else {
-      const indexBookMember = borrowedBooksMember.findIndex(
-        (borrowed) => borrowed.code === borrowing.code,
-      );
-
-      const indexBook = borrowedBooksCount.findIndex(
-        (borrowed) => borrowed.code === borrowing.code,
-      );
-
-      // Remove data borrowing on table member
-      if (indexBookMember !== -1) {
-        borrowedBooksMember.splice(indexBookMember, 1);
-      }
-
-      // Remove data borrowing on table book
-      if (indexBook !== -1) {
-        borrowedBooksCount.splice(indexBook, 1);
-      }
     }
-
     // Check date returned book by member
     const borrowedDate = new Date(borrowing.borrowingDate);
 
@@ -168,39 +149,22 @@ export class BorrowingService {
 
     // Update data borrowing book by member
     if (comparingInDays > 7) {
-      await this.borrowingRepo.update(member.id, {
-        member: {
-          isPenalized: true,
-          borrowedBooks: borrowedBooksMember,
-        },
-        book: {
-          borrowedBooks: borrowedBooksCount,
-        },
+      await this.borrowingRepo.delete(borrowing.id);
+      await this.memberRepo.update(member.id, {
+        isPenalized: true,
       });
 
       // TODO: Running cron job to make it data penalized false into 3 days later
     } else {
-      await this.memberRepo.update(member.id, {
-        borrowedBooks: borrowedBooksMember,
-      });
-
-      await this.bookRepo.update(book.id, {
-        borrowedBooks: borrowedBooksMember,
-      });
+      await this.borrowingRepo.delete(borrowing.id);
     }
 
     // Update stock book
     await this.bookRepo.update(book.id, {
       stock: book.stock + 1,
-      borrowedBooks: borrowedBooksCount,
     });
 
-    // Update status borrowing
-    await this.borrowingRepo.update(borrowing.id, {
-      status: BorrowingStatus.RETURNED,
-    });
-
-    // Get data updated member
+    // Get latest data updated member
     const updatedMember = await this.memberRepo.findMemberByCode(member.code);
 
     // Return response based on member status penalizaed
@@ -215,7 +179,7 @@ export class BorrowingService {
         status: HttpStatus.OK,
         message: `Successfully returned book ${book.title} by member ${member.name}`,
         warning:
-          'This member got penalized, and only can borrowing book again in 3 days later',
+          'This member has been penalized, and can only borrow the book again in 3 days.',
         data: updatedMember,
       };
     }

@@ -122,11 +122,9 @@ export class BorrowingService {
 
     // Check data borrowing
     const borrowing = await this.borrowingRepo.findBorrowingById(id);
-    let borrowedBooksMember = member.borrowedBooks;
-    let borrowedBooksCount = book.borrowedBooks;
 
     // Check book member has borrowed
-    const borrowedBook = borrowedBooksCount.find(
+    const borrowedBook = book.borrowedBooks.find(
       (borrowed) => borrowed.code === borrowing.code,
     );
 
@@ -147,16 +145,28 @@ export class BorrowingService {
     // Calculating the difference in days
     const comparingInDays = Math.abs(comparingInMs / (1000 * 60 * 60 * 24));
 
-    // Update data borrowing book by member
+    // Update data borrowing book by member based on returned date
     if (comparingInDays > 7) {
-      await this.borrowingRepo.delete(borrowing.id);
+      await this.borrowingRepo.update(borrowing.id, {
+        book: null,
+        member: null,
+        returnedDate: dateNow,
+        status: BorrowingStatus.RETURNED,
+      });
+
+      // Update data member penalized into true
       await this.memberRepo.update(member.id, {
         isPenalized: true,
       });
 
       // TODO: Running cron job to make it data penalized false into 3 days later
     } else {
-      await this.borrowingRepo.delete(borrowing.id);
+      await this.borrowingRepo.update(borrowing.id, {
+        book: null,
+        member: null,
+        returnedDate: dateNow,
+        status: BorrowingStatus.RETURNED,
+      });
     }
 
     // Update stock book

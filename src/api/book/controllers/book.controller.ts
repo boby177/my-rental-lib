@@ -39,6 +39,18 @@ export class BookController {
     return await this.book.findAllBooks(query);
   }
 
+  @Get('not-borrowed')
+  @ApiOperation({ summary: 'Get books are not borrowed' })
+  async getNotBorrowedBooks() {
+    return await this.book.getNotBorrowedBooks();
+  }
+
+  @Get('borrowed')
+  @ApiOperation({ summary: 'Get books are borrowed' })
+  async getBorrowedBooks() {
+    return await this.book.getBorrowedBooks();
+  }
+
   @Get('id/:id')
   @ApiOperation({ summary: 'Get book by id' })
   @ApiResponse({

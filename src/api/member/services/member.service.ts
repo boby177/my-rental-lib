@@ -40,6 +40,24 @@ export class MemberService {
     };
   }
 
+  async findBorrowedBooksMember(code: string) {
+    const member = await this.memberRepo.findMemberByCode(code);
+
+    if (member.borrowedBooks.length === 0) {
+      return {
+        status: HttpStatus.OK,
+        bookBorrowed: 0,
+        message: 'This member is not borrowing any book',
+      };
+    } else {
+      return {
+        status: HttpStatus.OK,
+        bookBorrowed: member.borrowedBooks.length,
+        books: member.borrowedBooks,
+      };
+    }
+  }
+
   async addNewMember(memberCreateDto: MemberCreateDTO) {
     const { name, code } = memberCreateDto;
 
@@ -49,6 +67,7 @@ export class MemberService {
     const newMember = this.memberRepo.create({
       code,
       name,
+      isPenalized: false,
     });
 
     await this.memberRepo.save(newMember);

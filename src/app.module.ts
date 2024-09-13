@@ -8,6 +8,7 @@ import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
 import { MemberModule } from './api/member/member.module';
 import { BookModule } from './api/book/book.module';
+import { BorrowingModule } from './api/borrowing/borrowing.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { BookModule } from './api/book/book.module';
     }),
     MemberModule,
     BookModule,
+    BorrowingModule,
   ],
 })
 export class AppModule {}

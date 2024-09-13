@@ -40,6 +40,48 @@ export class BookService {
     };
   }
 
+  async getBorrowedBooks() {
+    const book = await this.bookRepo.getAllBook();
+    let borrowedBook = [];
+
+    // Get data with field borrowed book is not empty
+    for (const item of book) {
+      let data = {};
+
+      if (item.borrowedBooks.length !== 0) {
+        data = item;
+        borrowedBook.push(data);
+      }
+    }
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Successfully get data borrowed books',
+      data: borrowedBook,
+    };
+  }
+
+  async getNotBorrowedBooks() {
+    const book = await this.bookRepo.getAllBook();
+    let borrowedBook = [];
+
+    // Get data with field borrowed book is empty
+    for (const item of book) {
+      let data = {};
+
+      if (item.borrowedBooks.length === 0) {
+        data = item;
+        borrowedBook.push(data);
+      }
+    }
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Successfully get data books',
+      data: borrowedBook,
+    };
+  }
+
   async addNewBook(bookCreateDTO: BookCreateDTO) {
     const { code, title, author, stock } = bookCreateDTO;
 

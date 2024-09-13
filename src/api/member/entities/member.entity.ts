@@ -1,6 +1,7 @@
 import { AutoMap } from '@automapper/classes';
+import { Borrowing } from 'src/api/borrowing/entities/borrowing.entity';
 import { BaseEntity } from 'src/common/base';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('member')
 export class Member extends BaseEntity {
@@ -16,5 +17,11 @@ export class Member extends BaseEntity {
   @Column({ type: 'boolean', default: false })
   isPenalized: boolean;
 
-  // TODO: Relation with borrowing table
+  // Relations 1 to M with Borrowing table
+  @AutoMap(() => [Borrowing])
+  @OneToMany(() => Borrowing, (borrowed) => borrowed.member, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  borrowedBooks: Borrowing[];
 }

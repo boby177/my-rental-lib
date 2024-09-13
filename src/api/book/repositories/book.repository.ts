@@ -91,8 +91,30 @@ export class BookRepository extends Repository<Book> {
   async getAllBook() {
     try {
       const book = await this.find({
-        relations: ['borrowedBooks'],
-        select: ['id', 'code', 'author', 'title', 'stock', 'borrowedBooks'],
+        relations: {
+          borrowedBooks: {
+            member: true,
+          },
+        },
+        select: {
+          id: true,
+          code: true,
+          author: true,
+          title: true,
+          stock: true,
+          borrowedBooks: {
+            id: true,
+            code: true,
+            borrowingDate: true,
+            returnedDate: true,
+            status: true,
+            member: {
+              id: true,
+              code: true,
+              name: true,
+            },
+          },
+        },
       });
 
       if (!book) {

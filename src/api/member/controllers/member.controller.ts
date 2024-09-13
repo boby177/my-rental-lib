@@ -69,7 +69,7 @@ export class MemberController {
   @ApiQuery({
     name: 'code',
     type: 'string',
-    required: false,
+    required: true,
     description: 'Member Code',
   })
   async findBorrowedBooksMember(@Query('code') code: string) {

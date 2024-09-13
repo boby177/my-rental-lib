@@ -3,10 +3,14 @@ import { PaginateQuery } from 'nestjs-paginate';
 import { MemberRepository } from '../repositories/member.repository';
 import { MemberCreateDTO } from './dtos/member-create.dto';
 import { MemberUpdateDTO } from './dtos/member-update.dto';
+import { BorrowingRepository } from 'src/api/borrowing/repositories/borrowing.repository';
 
 @Injectable()
 export class MemberService {
-  constructor(private readonly memberRepo: MemberRepository) {}
+  constructor(
+    private readonly memberRepo: MemberRepository,
+    private readonly borrowingRepo: BorrowingRepository,
+  ) {}
 
   async findAllMembers(query: PaginateQuery) {
     const members = await this.memberRepo.getAllMemberPagination(query);
@@ -43,7 +47,29 @@ export class MemberService {
   async findBorrowedBooksMember(code: string) {
     const member = await this.memberRepo.findMemberByCode(code);
 
-    if (member.borrowedBooks.length === 0) {
+    const borrowing = await this.borrowingRepo.find({
+      where: {
+        member: {
+          id: member.id,
+        },
+      },
+      relations: { book: true },
+      select: {
+        id: true,
+        code: true,
+        status: true,
+        borrowingDate: true,
+        returnedDate: true,
+        book: {
+          id: true,
+          code: true,
+          title: true,
+          author: true,
+        },
+      },
+    });
+
+    if (borrowing.length === 0) {
       return {
         status: HttpStatus.OK,
         bookBorrowed: 0,
@@ -52,8 +78,8 @@ export class MemberService {
     } else {
       return {
         status: HttpStatus.OK,
-        bookBorrowed: member.borrowedBooks.length,
-        books: member.borrowedBooks,
+        bookBorrowed: borrowing.length,
+        books: borrowing,
       };
     }
   }

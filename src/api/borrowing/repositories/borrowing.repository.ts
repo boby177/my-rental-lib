@@ -38,15 +38,25 @@ export class BorrowingRepository extends Repository<Borrowing> {
       const Borrowing = await this.findOne({
         where: { id },
         relations: ['book', 'member'],
-        select: [
-          'id',
-          'code',
-          'status',
-          'borrowingDate',
-          'returnedDate',
-          'member',
-          'book',
-        ],
+        select: {
+          id: true,
+          code: true,
+          status: true,
+          borrowingDate: true,
+          returnedDate: true,
+          member: {
+            id: true,
+            code: true,
+            name: true,
+            isPenalized: true,
+          },
+          book: {
+            id: true,
+            code: true,
+            title: true,
+            author: true,
+          },
+        },
       });
 
       if (!Borrowing) {
@@ -65,15 +75,25 @@ export class BorrowingRepository extends Repository<Borrowing> {
       const Borrowing = await this.findOne({
         where: { code },
         relations: ['book', 'member'],
-        select: [
-          'id',
-          'code',
-          'status',
-          'borrowingDate',
-          'returnedDate',
-          'member',
-          'book',
-        ],
+        select: {
+          id: true,
+          code: true,
+          status: true,
+          borrowingDate: true,
+          returnedDate: true,
+          member: {
+            id: true,
+            code: true,
+            name: true,
+            isPenalized: true,
+          },
+          book: {
+            id: true,
+            code: true,
+            title: true,
+            author: true,
+          },
+        },
       });
 
       if (!Borrowing) {

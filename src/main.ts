@@ -10,6 +10,7 @@ async function bootstrap() {
 
   const port = configService.get('API_PORT') || 3000;
   const apiVersion = configService.get('API_VERSION');
+  const apiURL = configService.get('API_URL_LOCAL');
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -21,5 +22,8 @@ async function bootstrap() {
   await app.listen(port);
 
   Logger.log(`App is running on port: ${port}`);
+  Logger.log(
+    `Swagger: ${apiURL}:${port}/api/docs/v${apiVersion}/web`,
+  );
 }
 bootstrap();

@@ -26,10 +26,32 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Description Project
+
+My Rental Library is app to rental book for member.
+All features is same as the use cases, and this is schema database i built.
+
+### Database schema
+
+![Database](https://raw.githubusercontent.com/boby177/my-rental-lib/main/Screenshot_2.png)
+
+
+### My Rental Library Swagger
+
+![Swagger](https://raw.githubusercontent.com/boby177/my-rental-lib/main/Screenshot_1.png)
+
+
 ## Project setup
 
 ```bash
+Create .env file and copy all data based on .env.development file
+Create new database using POSTGRESQL with name my-rental-lib (default name)
+
 $ yarn install
+$ yarn migration:run
+$ yarn run start:dev
+
+Open Web browser: http://localhost:3000/api/docs/v1/web
 ```
 
 ## Compile and run the project

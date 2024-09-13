@@ -99,17 +99,7 @@ export class BookService {
     return {
       status: HttpStatus.CREATED,
       message: `New data book ${title} has been created`,
-      data: {
-        id: newBook.id,
-        code: newBook.code,
-        title: newBook.title,
-        author: newBook.author,
-        stock: newBook.stock,
-        createdAt: newBook.createdAt,
-        createdBy: newBook.createdBy,
-        updatedAt: newBook.updatedAt,
-        deletedAt: newBook.deletedAt,
-      },
+      data: newBook,
     };
   }
 
@@ -130,17 +120,7 @@ export class BookService {
     return {
       status: HttpStatus.OK,
       message: `Data book ${updatedBook.title} has been updated`,
-      data: {
-        id: updatedBook.id,
-        code: updatedBook.code,
-        title: updatedBook.title,
-        author: updatedBook.author,
-        stock: updatedBook.stock,
-        createdAt: updatedBook.createdAt,
-        createdBy: updatedBook.createdBy,
-        updatedAt: updatedBook.updatedAt,
-        deletedAt: updatedBook.deletedAt,
-      },
+      data: updatedBook,
     };
   }
 

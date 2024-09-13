@@ -74,16 +74,7 @@ export class MemberService {
     return {
       status: HttpStatus.CREATED,
       message: `New data member ${name} has been created`,
-      data: {
-        id: newMember.id,
-        code: newMember.code,
-        name: newMember.name,
-        isPenalized: newMember.isPenalized,
-        createdAt: newMember.createdAt,
-        createdBy: newMember.createdBy,
-        updatedAt: newMember.updatedAt,
-        deletedAt: newMember.deletedAt,
-      },
+      data: newMember,
     };
   }
 
@@ -103,16 +94,7 @@ export class MemberService {
     return {
       status: HttpStatus.OK,
       message: `Data member ${member.name} has been updated`,
-      data: {
-        id: updatedMember.id,
-        code: updatedMember.code,
-        name: updatedMember.name,
-        isPenalized: updatedMember.isPenalized,
-        createdAt: updatedMember.createdAt,
-        createdBy: updatedMember.createdBy,
-        updatedAt: updatedMember.updatedAt,
-        deletedAt: updatedMember.deletedAt,
-      },
+      data: updatedMember,
     };
   }
 

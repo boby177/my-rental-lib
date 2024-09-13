@@ -1,5 +1,6 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
+import { Borrowing } from 'src/api/borrowing/entities/borrowing.entity';
 import { BaseEntity } from 'src/common/base';
 
 export class BookReadDTO extends BaseEntity {
@@ -23,5 +24,7 @@ export class BookReadDTO extends BaseEntity {
   @AutoMap()
   stock: number;
 
-  // TODO: Relation with borrowing or book table
+  @ApiProperty()
+  @AutoMap()
+  borrowedBooks: Borrowing[];
 }
